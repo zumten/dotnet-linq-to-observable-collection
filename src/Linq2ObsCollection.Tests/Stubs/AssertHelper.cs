@@ -58,14 +58,14 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
 
     public static class AssertHelper
     {
-        public static void AreEqual(int[][] expected, GroupingObservableCollection<int, int> actual)
+        public static void AreEqual(int[][] expected, GroupingObservatorCollection<int, int> actual)
         {
             Assert.AreEqual(expected.Length, actual.Count);
             for (int i = 0; i < expected.Length; i++)
                 CollectionAssert.AreEqual(expected[i], actual[i]);
         }
 
-        public static void AreEqual(int[][] expected, GroupingObservableCollection<int, ObservableItem> actual)
+        public static void AreEqual(int[][] expected, GroupingObservatorCollection<int, ObservableItem> actual)
         {
             List<IGrouping<int, ObservableItem>> groups = ((IList)actual).Cast<IGrouping<int, ObservableItem>>().ToList();
             Assert.AreEqual(expected.Length, actual.Count);

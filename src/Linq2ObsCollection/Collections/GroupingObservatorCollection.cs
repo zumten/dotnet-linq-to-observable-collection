@@ -15,7 +15,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
     /// <remarks>Does not support duplicates.</remarks>
     /// <typeparam name="TKey">Type of the key used to group items</typeparam>
     /// <typeparam name="T">Type of the source collection items</typeparam>
-    public class GroupingObservableCollection<TKey, T> : BaseObservatorCollection<GroupingObservableCollection<TKey, T>.GroupCollection>, ILookup<TKey, T>
+    public class GroupingObservatorCollection<TKey, T> : BaseObservatorCollection<GroupingObservatorCollection<TKey, T>.GroupCollection>, ILookup<TKey, T>
     {
         #region Nested classes
 
@@ -159,7 +159,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <param name="source">Source collection to observe.</param>
         /// <param name="keySelector">Function used to extract the key from each item.</param>
         /// <param name="comparer">Comparer used to distinguish the keys from each-other.</param>
-        public GroupingObservableCollection(IObservableCollection<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey> comparer = null)
+        public GroupingObservatorCollection(IObservableCollection<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey> comparer = null)
         {
             _source = source ?? ReadOnlyObservableCollection<T>.Empty;
             _keySelector = keySelector;
@@ -374,47 +374,50 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         {
             T item = (T)sender;
             TKey newKey = _keySelector(item);
-            MetaData meta = _metaDatas[item];
+            MetaData meta;
 
-            // If the key changed, we will have to change the item's group
-            if (!_keyComparer.Equals(newKey, meta.Key))
+            if (_metaDatas.TryGetValue(item, out meta))
             {
-                // Remove the item from the old group
-                GroupCollection oldGroup = _itemsByKey[meta.Key];
-                int oldIndex = BinarySearch(oldGroup.Items, meta.Order);
-                oldGroup.Items.RemoveAt(oldIndex);
-                oldGroup.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, oldIndex));
-                oldGroup.OnPropertyChanged("Count");
+                // If the key changed, we will have to change the item's group
+                if (!_keyComparer.Equals(newKey, meta.Key))
+                {
+                    // Remove the item from the old group
+                    GroupCollection oldGroup = _itemsByKey[meta.Key];
+                    int oldIndex = BinarySearch(oldGroup.Items, meta.Order);
+                    oldGroup.Items.RemoveAt(oldIndex);
+                    oldGroup.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, oldIndex));
+                    oldGroup.OnPropertyChanged("Count");
 
-                // If the group has no item anymore, then we can remove it.
-                if (oldGroup.Count == 0)
-                {
-                    int indexGroup = _items.IndexOf(oldGroup);
-                    _items.RemoveAt(indexGroup);
-                    _itemsByKey.Remove(oldGroup.Key);
-                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)oldGroup, indexGroup));
-                    OnPropertyChanged("Count");
-                }
+                    // If the group has no item anymore, then we can remove it.
+                    if (oldGroup.Count == 0)
+                    {
+                        int indexGroup = _items.IndexOf(oldGroup);
+                        _items.RemoveAt(indexGroup);
+                        _itemsByKey.Remove(oldGroup.Key);
+                        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)oldGroup, indexGroup));
+                        OnPropertyChanged("Count");
+                    }
 
-                meta.Key = newKey;
-                GroupCollection newGroup;
-                if (_itemsByKey.TryGetValue(newKey, out newGroup))
-                {
-                    // Find the index of the item in the new group
-                    int newIndex = ~BinarySearch(newGroup.Items, meta.Order);
-                    newGroup.Items.Insert(newIndex, item);
-                    newGroup.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, newIndex));
-                    newGroup.OnPropertyChanged("Count");
-                }
-                else
-                {
-                    // The group does not exist, we have to create it.
-                    newGroup = new GroupCollection(newKey, new[] { item });
-                    int newIndex = _items.Count;
-                    _items.Add(newGroup);
-                    _itemsByKey.Add(newGroup.Key, newGroup);
-                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object) newGroup, newIndex));
-                    OnPropertyChanged("Count");
+                    meta.Key = newKey;
+                    GroupCollection newGroup;
+                    if (_itemsByKey.TryGetValue(newKey, out newGroup))
+                    {
+                        // Find the index of the item in the new group
+                        int newIndex = ~BinarySearch(newGroup.Items, meta.Order);
+                        newGroup.Items.Insert(newIndex, item);
+                        newGroup.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, newIndex));
+                        newGroup.OnPropertyChanged("Count");
+                    }
+                    else
+                    {
+                        // The group does not exist, we have to create it.
+                        newGroup = new GroupCollection(newKey, new[] { item });
+                        int newIndex = _items.Count;
+                        _items.Add(newGroup);
+                        _itemsByKey.Add(newGroup.Key, newGroup);
+                        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (object)newGroup, newIndex));
+                        OnPropertyChanged("Count");
+                    }
                 }
             }
         }

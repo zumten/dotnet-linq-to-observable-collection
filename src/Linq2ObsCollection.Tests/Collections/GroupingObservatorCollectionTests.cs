@@ -13,7 +13,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Add_WhenInsertingAnItemWithoutGroup_NewGroupShouldBeCreated()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x%3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x%3);
             CollectionListener events = CollectionListener.Create(actual);
             list.Add(5);
 
@@ -26,7 +26,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Add_WhenInsertingAnItemWithGroup_ShouldBeAddedAtTheEnd()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             CollectionListener eventsChild = CollectionListener.Create(actual[1]);
             list.Add(6);
@@ -41,7 +41,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Remove_WhenAnItemAloneInItsGroup_GroupShouldBeRemoved()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 5, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             var groupRemoved = actual[1];
             list.Remove(5);
@@ -55,7 +55,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Remove_WhenAnItemIsRemovedFromBiggerGroup_GroupShouldRemain()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 5, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             CollectionListener eventsChild = CollectionListener.Create(actual[0]);
             list.Remove(16);
@@ -70,7 +70,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Move_WhenItemIsMovedWithoutChangingGroupOrder_OrderShouldStay()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 5, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             list.Move(2, 4);
 
@@ -84,7 +84,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void Move_WhenItemIsMovedWithinTheSameGroup_OrderShouldChange()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 5, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             CollectionListener eventsChild = CollectionListener.Create(actual[0]);
             list.Move(2, 6);
@@ -99,7 +99,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void MoveRange_WhenMultipleItemsMovedWithinTheSameGroup_OrderShouldChange()
         {
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 5, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, int> actual = new GroupingObservableCollection<int, int>(list, x => x % 3);
+            GroupingObservatorCollection<int, int> actual = new GroupingObservatorCollection<int, int>(list, x => x % 3);
             CollectionListener events = CollectionListener.Create(actual);
             CollectionListener eventsChild = CollectionListener.Create(actual[0]);
             list.MoveRange(0, 3, 3);
@@ -114,7 +114,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void PropertyChanged_WhenGroupingPropertyChanges_ItemShouldChangeGroup()
         {
             ObservableCollection<ObservableItem> list = new ObservableCollection<ObservableItem> { 4, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, ObservableItem> actual = new GroupingObservableCollection<int, ObservableItem>(list, x => x.Value / 10);
+            GroupingObservatorCollection<int, ObservableItem> actual = new GroupingObservatorCollection<int, ObservableItem>(list, x => x.Value / 10);
             CollectionListener events = CollectionListener.Create(actual);
             CollectionListener eventsChild1 = CollectionListener.Create(actual[0]);
             CollectionListener eventsChild2 = CollectionListener.Create(actual[1]);
@@ -132,7 +132,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void PropertyChanged_WhenGroupingPropertyChanges_ItemShouldChangeGroup2()
         {
             ObservableCollection<ObservableItem> list = new ObservableCollection<ObservableItem> { 4, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, ObservableItem> actual = new GroupingObservableCollection<int, ObservableItem>(list, x => x.Value / 10);
+            GroupingObservatorCollection<int, ObservableItem> actual = new GroupingObservatorCollection<int, ObservableItem>(list, x => x.Value / 10);
             CollectionListener events = CollectionListener.Create(actual);
             list[0].Value = 23;
 
@@ -146,7 +146,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
         public void PropertyChanged_WhenGroupBecomesEmpty_GroupShouldBeRemoved()
         {
             ObservableCollection<ObservableItem> list = new ObservableCollection<ObservableItem> { 4, 7, 9, 12, 16, 19 };
-            GroupingObservableCollection<int, ObservableItem> actual = new GroupingObservableCollection<int, ObservableItem>(list, x => x.Value / 5);
+            GroupingObservatorCollection<int, ObservableItem> actual = new GroupingObservatorCollection<int, ObservableItem>(list, x => x.Value / 5);
             CollectionListener events = CollectionListener.Create(actual);
             var groupRemoved = actual[0];
             list[0].Value = 13;

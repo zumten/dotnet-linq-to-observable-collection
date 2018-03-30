@@ -70,7 +70,8 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         {
             if (_items == null)
             {
-                _orderByItem = new Dictionary<T, uint>(_source.Count * 2, ReferenceComparer<T>.EqualityComparer);
+                IEqualityComparer<T> comparer = typeof(T).IsValueType ? (IEqualityComparer<T>)EqualityComparer<T>.Default : ReferenceComparer<T>.EqualityComparer;
+                _orderByItem = new Dictionary<T, uint>(_source.Count * 2, comparer);
                 _source.CollectionChanged += SourceOnCollectionChanged;
 
                 _items = new ExtendedList<T>(((ICollection<T>)_source).Where(_predicate));

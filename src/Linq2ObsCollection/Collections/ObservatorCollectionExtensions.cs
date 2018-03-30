@@ -53,9 +53,9 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <summary>
         /// Splits all the elements using a key, in the same way Enumerable.GroupBy works.
         /// </summary>
-        public static GroupingObservableCollection<TKey, T> GroupBy<TKey, T>(this IObservableCollection<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey> keyComparer = null)
+        public static GroupingObservatorCollection<TKey, T> GroupBy<TKey, T>(this IObservableCollection<T> source, Func<T, TKey> keySelector, IEqualityComparer<TKey> keyComparer = null)
         {
-            return new GroupingObservableCollection<TKey, T>(source, keySelector, keyComparer ?? EqualityComparer<TKey>.Default);
+            return new GroupingObservatorCollection<TKey, T>(source, keySelector, keyComparer ?? EqualityComparer<TKey>.Default);
         }
 
         /// <summary>

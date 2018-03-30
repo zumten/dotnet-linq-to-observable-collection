@@ -217,28 +217,34 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             T item = (T) sender;
-            uint referenceIndex = _orderByItem[item];
-            int oldIndex = BinarySearch(referenceIndex);
+            uint referenceIndex;
 
-            // Comparing position with the previous element and the next element. If index is between, the order has not being change
-            if ((oldIndex != 0 && _comparerWithFallback.Compare(_items[oldIndex - 1], item) > 0) || (oldIndex != _items.Count - 1 && _comparerWithFallback.Compare(_items[oldIndex + 1], item) < 0))
+            // Item should always be there, except if the parent collection just removed it due to a PropertyChanged.
+            // In this case, we have to ignore it.
+            if (_orderByItem.TryGetValue(item, out referenceIndex))
             {
-                int newIndex = ~BinarySearch(item, oldIndex);
-                _items.Move(oldIndex, newIndex);
-                int previousIndex = newIndex - 1;
-                uint minReferenceIndex = (previousIndex < 0 ? 0 : _orderByItem[_items[previousIndex]]) + 1;
-                uint maxReferenceIndex = (newIndex + 1 >= _items.Count ? uint.MaxValue : _orderByItem[_items[newIndex + 1]]) - 1;
+                int oldIndex = BinarySearch(referenceIndex);
 
-                if (maxReferenceIndex >= minReferenceIndex)
+                // Comparing position with the previous element and the next element. If index is between, the order has not being change
+                if ((oldIndex != 0 && _comparerWithFallback.Compare(_items[oldIndex - 1], item) > 0) || (oldIndex != _items.Count - 1 && _comparerWithFallback.Compare(_items[oldIndex + 1], item) < 0))
                 {
-                    _orderByItem[item] = minReferenceIndex + (maxReferenceIndex - minReferenceIndex)/2;
+                    int newIndex = ~BinarySearch(item, oldIndex);
+                    _items.Move(oldIndex, newIndex);
+                    int previousIndex = newIndex - 1;
+                    uint minReferenceIndex = (previousIndex < 0 ? 0 : _orderByItem[_items[previousIndex]]) + 1;
+                    uint maxReferenceIndex = (newIndex + 1 >= _items.Count ? uint.MaxValue : _orderByItem[_items[newIndex + 1]]) - 1;
+
+                    if (maxReferenceIndex >= minReferenceIndex)
+                    {
+                        _orderByItem[item] = minReferenceIndex + (maxReferenceIndex - minReferenceIndex) / 2;
+                    }
+                    else
+                    {
+                        ResetIndexes();
+                    }
+
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
                 }
-                else
-                {
-                    ResetIndexes();
-                }
-                
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item, newIndex, oldIndex));
             }
         }
 

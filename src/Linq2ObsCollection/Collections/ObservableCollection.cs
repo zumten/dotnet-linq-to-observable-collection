@@ -4,12 +4,21 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 
 namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Represents a dynamic data collection that provides notifications
     /// when items get added, removed, moved or when the whole list is refreshed.
+    /// 
+    /// This class has been extracted from System.Collections.ObjectModel
+    /// and the following modifications has been applied:
+    /// - Removed the inheritance to Collection&lt;T&gt;
+    /// - Added implementation to IObservableCollection&lt;T&gt; and IList
+    /// - Added the bulk changes methods: AddRange, InsertRange, RemoveRange and MoveRange
+    /// - Simplified the class SimpleMonitor
+    /// - Merged OnObservableCollection overloads
     /// </summary>
     /// <typeparam name="T">The type of elements in the collection.</typeparam>
     [Serializable]
@@ -18,80 +27,45 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         private readonly SimpleMonitor _monitor = new SimpleMonitor();
         private readonly ExtendedList<T> _items;
 
-        /// <summary>
-        /// Initializes a new instance of the ObservableCollection class.
-        /// </summary>
-        public ObservableCollection()
+        #region Events
+
+        [NonSerialized] private NotifyCollectionChangedEventHandler _collectionChanged;
+        [NonSerialized] private PropertyChangedEventHandler _propertyChanged;
+        
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
         {
-            _items = new ExtendedList<T>();
+            add { PropertyChanged += value; }
+            remove { PropertyChanged -= value; }
         }
 
         /// <summary>
-        /// Initializes a new instance of the ObservableCollection class that contains elements copied from the specified collection.
+        /// Occurs when an item is added, removed, changed, moved, or the entire list is refreshed.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param><exception cref="T:System.ArgumentNullException">The <paramref name="collection"/> parameter cannot be null.</exception>
-        public ObservableCollection(IEnumerable<T> collection)
+        public virtual event NotifyCollectionChangedEventHandler CollectionChanged
         {
-            _items = new ExtendedList<T>(collection);
-        }
-
-        public void AddRange(IEnumerable<T> items)
-        {
-            InsertRange(_items.Count, items);
-        }
-
-        public void InsertRange(int index, IEnumerable<T> items)
-        {
-            T[] itemsToInsert = items.ToArray();
-            if (itemsToInsert.Length > 0)
+            add
             {
-                CheckReentrancy();
-                _items.InsertRange(index, itemsToInsert);
-                OnPropertyChanged("Count");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, itemsToInsert, index));
+                NotifyCollectionChangedEventHandler changedEventHandler = _collectionChanged;
+                NotifyCollectionChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _collectionChanged, comparand + value, comparand);
+                }
+                while (changedEventHandler != comparand);
+            }
+            remove
+            {
+                NotifyCollectionChangedEventHandler changedEventHandler = _collectionChanged;
+                NotifyCollectionChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _collectionChanged, comparand - value, comparand);
+                }
+                while (changedEventHandler != comparand);
             }
         }
-
-        public void RemoveRange(int index, int count)
-        {
-            if (count > 0)
-            {
-                CheckReentrancy();
-                T[] itemsToRemove = new T[count];
-                for (int i = 0; i < count; i++)
-                    itemsToRemove[i] = _items[index + i];
-                _items.RemoveRange(index, count);
-                OnPropertyChanged("Count");
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, itemsToRemove, index));
-            }
-        }
-
-        /// <summary>
-        /// Moves the item at the specified index to a new location in the collection.
-        /// </summary>
-        /// <param name="oldIndex">The zero-based index specifying the location of the item to be moved.</param><param name="newIndex">The zero-based index specifying the new location of the item.</param>
-        public void Move(int oldIndex, int newIndex)
-        {
-            CheckReentrancy();
-            T obj = _items[oldIndex];
-            _items.Move(oldIndex, newIndex);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, obj, newIndex, oldIndex));
-        }
-
-        public void MoveRange(int oldIndex, int newIndex, int count)
-        {
-            if (count > 0)
-            {
-                CheckReentrancy();
-                T[] itemsToMove = new T[count];
-                for (int i = 0; i < count; i++)
-                    itemsToMove[i] = _items[oldIndex + i];
-                _items.MoveRange(oldIndex, newIndex, count);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, itemsToMove, newIndex, oldIndex));
-            }
-        }
-
-        #region IObservableCollection<T> implementation
 
         public IObservableCollection<TResult> Cast<TResult>()
         {
@@ -103,14 +77,85 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             return new TypeFilteringObservatorCollection<TResult>(this);
         }
 
+        /// <summary>
+        /// Occurs when a property value changes.
+        /// </summary>
+        protected event PropertyChangedEventHandler PropertyChanged
+        {
+            add
+            {
+                PropertyChangedEventHandler changedEventHandler = _propertyChanged;
+                PropertyChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _propertyChanged, comparand + value, comparand);
+                }
+                while (changedEventHandler != comparand);
+            }
+            remove
+            {
+                PropertyChangedEventHandler changedEventHandler = _propertyChanged;
+                PropertyChangedEventHandler comparand;
+                do
+                {
+                    comparand = changedEventHandler;
+                    changedEventHandler = Interlocked.CompareExchange(ref _propertyChanged, comparand - value, comparand);
+                }
+                while (changedEventHandler != comparand);
+            }
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.PropertyChanged"/> event with the provided arguments.
+        /// </summary>
+        /// <param name="e">Arguments of the event being raised.</param>
+        private void OnPropertyChanged(string propertyName)
+        {
+            if (_propertyChanged != null)
+                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged"/> event with the provided arguments.
+        /// </summary>
+        /// <param name="e">Arguments of the event being raised.</param>
+        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (_collectionChanged != null)
+                using (_monitor.Enter())
+                    _collectionChanged(this, e);
+        }
+
+        #endregion Events
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> class.
+        /// </summary>
+        public ObservableCollection()
+        {
+            _items = new ExtendedList<T>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:System.Collections.ObjectModel.ObservableCollection`1"/> class that contains elements copied from the specified collection.
+        /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param><exception cref="T:System.ArgumentNullException">The <paramref name="collection"/> parameter cannot be null.</exception>
+        public ObservableCollection(IEnumerable<T> collection)
+        {
+            _items = new ExtendedList<T>(collection);
+        }
+
+
         public T this[int index]
         {
             get { return _items[index]; }
             set
             {
                 CheckReentrancy();
-                T obj = _items[index];
+                T obj = this[index];
                 _items[index] = value;
+                OnPropertyChanged("Item[]");
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, obj, index));
             }
         }
@@ -135,6 +180,11 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             Insert(_items.Count, item);
         }
 
+        public void AddRange(IEnumerable<T> items)
+        {
+            InsertRange(_items.Count, items);
+        }
+
         /// <summary>
         /// Inserts an item into the collection at the specified index.
         /// </summary>
@@ -144,7 +194,21 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             CheckReentrancy();
             _items.Insert(index, item);
             OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+        }
+
+        public void InsertRange(int index, IEnumerable<T> items)
+        {
+            CheckReentrancy();
+            T[] itemsToInsert = items.ToArray();
+            if (itemsToInsert.Length > 0)
+            {
+                _items.InsertRange(index, itemsToInsert);
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, itemsToInsert, index));
+            }
         }
 
         public bool Remove(T item)
@@ -168,7 +232,23 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             T obj = _items[index];
             _items.RemoveAt(index);
             OnPropertyChanged("Count");
+            OnPropertyChanged("Item[]");
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, obj, index));
+        }
+
+        public void RemoveRange(int index, int count)
+        {
+            CheckReentrancy();
+            if (count > 0)
+            {
+                T[] itemsToRemove = new T[count];
+                for (int i = 0; i < count; i++)
+                    itemsToRemove[i] = _items[index + i];
+                _items.RemoveRange(index, count);
+                OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, itemsToRemove, index));
+            }
         }
 
         /// <summary>
@@ -181,7 +261,35 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             {
                 _items.Clear();
                 OnPropertyChanged("Count");
+                OnPropertyChanged("Item[]");
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            }
+        }
+
+        /// <summary>
+        /// Moves the item at the specified index to a new location in the collection.
+        /// </summary>
+        /// <param name="oldIndex">The zero-based index specifying the location of the item to be moved.</param><param name="newIndex">The zero-based index specifying the new location of the item.</param>
+        public void Move(int oldIndex, int newIndex)
+        {
+            CheckReentrancy();
+            T obj = _items[oldIndex];
+            _items.Move(oldIndex, newIndex);
+            OnPropertyChanged("Item[]");
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, obj, newIndex, oldIndex));
+        }
+
+        public void MoveRange(int oldIndex, int newIndex, int count)
+        {
+            CheckReentrancy();
+            if (count > 0)
+            {
+                T[] itemsToMove = new T[count];
+                for (int i = 0; i < count; i++)
+                    itemsToMove[i] = _items[oldIndex + i];
+                _items.MoveRange(oldIndex, newIndex, count);
+                OnPropertyChanged("Item[]");
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, itemsToMove, newIndex, oldIndex));
             }
         }
 
@@ -195,9 +303,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             get { return _items.Count; }
         }
 
-        #endregion IObservableCollection<T> implementation
-
-        #region IList implementation
+        #region Explicit implementation
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -267,41 +373,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             _items.CopyTo((T[])array, index);
         }
 
-        #endregion IList implementation
-
-        #region Events
-
-        /// <summary>
-        /// Occurs when an item is added, removed, changed, moved, or the entire list is refreshed.
-        /// </summary>
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
-
-        /// <summary>
-        /// Occurs when a property value changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.PropertyChanged"/> event with the provided arguments.
-        /// </summary>
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged"/> event with the provided arguments.
-        /// </summary>
-        /// <param name="e">Arguments of the event being raised.</param>
-        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (CollectionChanged != null)
-                using (_monitor.Enter())
-                    CollectionChanged(this, e);
-        }
-
-        #endregion Events
+        #endregion Explicit implementation
 
         #region Monitor
 
@@ -311,7 +383,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <exception cref="T:System.InvalidOperationException">If there was a call to <see cref="M:System.Collections.ObjectModel.ObservableCollection`1.BlockReentrancy"/> of which the <see cref="T:System.IDisposable"/> return value has not yet been disposed of. Typically, this means when there are additional attempts to change this collection during a <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.CollectionChanged"/> event. However, it depends on when derived classes choose to call <see cref="M:System.Collections.ObjectModel.ObservableCollection`1.BlockReentrancy"/>.</exception>
         private void CheckReentrancy()
         {
-            if (_monitor.IsBusy && CollectionChanged != null && CollectionChanged.GetInvocationList().Length > 1)
+            if (_monitor.IsBusy && _collectionChanged != null && _collectionChanged.GetInvocationList().Length > 1)
                 throw new InvalidOperationException("ObservableCollectionReentrancyNotAllowed");
         }
 
