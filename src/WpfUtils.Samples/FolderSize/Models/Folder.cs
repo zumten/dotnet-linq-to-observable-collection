@@ -44,6 +44,10 @@ namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
             {
                 files = new FileInfo[0];
             }
+            catch (DirectoryNotFoundException)
+            {
+                files = new FileInfo[0];
+            }
 
             DirectoryInfo[] directories;
             try
@@ -51,6 +55,10 @@ namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
                 directories = Source.GetDirectories();
             }
             catch (UnauthorizedAccessException)
+            {
+                directories = new DirectoryInfo[0];
+            }
+            catch (DirectoryNotFoundException)
             {
                 directories = new DirectoryInfo[0];
             }

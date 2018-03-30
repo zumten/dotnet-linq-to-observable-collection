@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+
+    <AssemblyName>ZumtenSoft.Linq2ObsCollection.Tests</AssemblyName>
+
+    <RootNamespace>ZumtenSoft.Linq2ObsCollection.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Linq2ObsCollection\Linq2ObsCollection.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WindowsBase">
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\WindowsBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

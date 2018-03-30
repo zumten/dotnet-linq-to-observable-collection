@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45;net46</TargetFrameworks>
+    <AssemblyName>ZumtenSoft.Linq2ObsCollection</AssemblyName>
+    <RootNamespace>ZumtenSoft.Linq2ObsCollection</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="WindowsBase">
+      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.1\WindowsBase.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
