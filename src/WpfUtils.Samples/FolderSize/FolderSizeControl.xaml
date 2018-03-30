@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="ZumtenSoft.WpfUtils.Samples.FolderSize.FolderSizeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:FolderSize="clr-namespace:ZumtenSoft.WpfUtils.Samples.FolderSize" mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <FolderSize:SizeConverter x:Key="_sizeFormatter" />
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="5,5,5,0" Height="22">
+            <TextBlock DockPanel.Dock="Left" Text="Search in:" VerticalAlignment="Center" TextAlignment="Right" Padding="5" Width="100" />
+            <Button DockPanel.Dock="Right" Content="Browse..." Click="Button_Browse" Margin="5,0,0,0" />
+            <TextBox Name="txtFolderPath" Text="C:\" IsEnabled="False" />
+        </DockPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal" Height="22">
+            <TextBlock DockPanel.Dock="Right" Text="Sort folders by:" VerticalAlignment="Center" TextAlignment="Right" Padding="5" Width="100" />
+            <ComboBox DockPanel.Dock="Right" Name="lstSortingFolders" SelectionChanged="lstSortingFolders_SelectionChanged" Width="100">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="5,0,5,5" Orientation="Horizontal" Height="22">
+            <TextBlock DockPanel.Dock="Right" Text="Sort files by:" VerticalAlignment="Center" TextAlignment="Right" Padding="5" Width="100" />
+            <ComboBox DockPanel.Dock="Right" Name="lstSortingFiles" SelectionChanged="lstSortingFiles_SelectionChanged" Width="100">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Top" Margin="5,0,5,5" Orientation="Horizontal" Height="25">
+            <Button Name="btnStart" DockPanel.Dock="Top" Content="Start"  Click="btnStart_Click" Width="100" Margin="100,0" />
+        </StackPanel>
+        
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="18" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock TextAlignment="Center">Folders</TextBlock>
+            <TreeView Name="treeFolders" Grid.Row="1">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=SubFolders}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding Path=Image}" />
+                            <TextBlock Text="{Binding Path=Name, Mode=OneTime}" Padding="5,0,5,0" />
+                            <TextBlock Text="{Binding Path=Length, Converter={StaticResource _sizeFormatter}, ConverterParameter=({0:0.00} {1})}" />
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
+                        <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+            <GridSplitter HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5"
+                  Grid.Column="1" Grid.Row="1" ResizeBehavior="PreviousAndNext" />
+            
+            <TextBlock Grid.Column="2" TextAlignment="Center">Files</TextBlock>
+            <ListView Name="detailsView" Grid.Column="2" Grid.Row="1">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="350">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Path=Image}" Width="16" Height="16" />
+                                        <TextBlock Text="{Binding Path=Name, Mode=OneTime}" Padding="5,0,0,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Size" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Length, Converter={StaticResource _sizeFormatter}}" TextAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        
+    </DockPanel>
+</UserControl>
