@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using ZumtenSoft.WpfUtils.Comparison;
+using ZumtenSoft.Linq2ObsCollection.Comparison;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Allows to sort items in the same way Enumerable.OrderBy works, but with the

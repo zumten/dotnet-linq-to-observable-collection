@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 {
     public class SizePropertyChangedEventArgs : PropertyChangedEventArgs
     {

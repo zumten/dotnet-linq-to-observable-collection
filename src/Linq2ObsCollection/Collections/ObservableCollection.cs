@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Represents a dynamic data collection that provides notifications

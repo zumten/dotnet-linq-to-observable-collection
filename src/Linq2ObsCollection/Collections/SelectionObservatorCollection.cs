@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Allows to modify the values of each items in the same way Enumerable.Select works, but with the

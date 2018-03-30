@@ -3,9 +3,9 @@ using System.IO;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
-using ZumtenSoft.WpfUtils.Samples.FolderSize.Icons;
+using ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Icons;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 {
     public class FileViewModel : NotifyObject
     {

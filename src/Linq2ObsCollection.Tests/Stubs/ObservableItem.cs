@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace ZumtenSoft.WpfUtils.Tests.Stubs
+namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
 {
     [DebuggerDisplay(@"\{ObservableItem Value={Value}\}")]
     public class ObservableItem : INotifyPropertyChanged

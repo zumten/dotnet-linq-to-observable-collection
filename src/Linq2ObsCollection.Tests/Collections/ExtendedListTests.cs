@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ZumtenSoft.WpfUtils.Collections;
+using ZumtenSoft.Linq2ObsCollection.Collections;
 
-namespace ZumtenSoft.WpfUtils.Tests.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
 {
     [TestClass]
     public class ExtendedListTests

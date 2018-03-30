@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace ZumtenSoft.WpfUtils.Samples.TreeSample
+namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
 {
     // Source: http://stackoverflow.com/questions/13251506/wpf-text-box-validation-on-numeric-value
     public class TextBoxHelpers : DependencyObject

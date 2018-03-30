@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Windows.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ZumtenSoft.WpfUtils.Collections;
-using ZumtenSoft.WpfUtils.Threading;
+using ZumtenSoft.Linq2ObsCollection.Collections;
+using ZumtenSoft.Linq2ObsCollection.Threading;
 
-namespace ZumtenSoft.WpfUtils.Tests.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
 {
     [TestClass]
     public class DispatchingObservatorCollectionTests

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// List with the ability to move elements in an optimized way.

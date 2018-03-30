@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Allows to join two IObservableCollection in the same way Enumerable.Concat works, but with the

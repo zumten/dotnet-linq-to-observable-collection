@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Windows.Threading;
-using ZumtenSoft.WpfUtils.Samples.FolderSize.Threading;
-using ZumtenSoft.WpfUtils.Threading;
+using ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Threading;
+using ZumtenSoft.Linq2ObsCollection.Threading;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 {
     public class ProcessingContext
     {

@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Windows.Threading;
 
-namespace ZumtenSoft.WpfUtils.Threading
+namespace ZumtenSoft.Linq2ObsCollection.Threading
 {
     /// <summary>
     /// This class is used, in conjunction with DispatchingObservatorCollection, to allow models to be updated freely

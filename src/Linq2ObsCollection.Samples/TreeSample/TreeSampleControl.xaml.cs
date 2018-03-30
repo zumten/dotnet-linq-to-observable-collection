@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using ZumtenSoft.WpfUtils.Collections;
+using ZumtenSoft.Linq2ObsCollection.Collections;
 
-namespace ZumtenSoft.WpfUtils.Samples.TreeSample
+namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
 {
     /// <summary>
     /// Interaction logic for TreeSampleControl.xaml

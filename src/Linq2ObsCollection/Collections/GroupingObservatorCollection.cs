@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using ZumtenSoft.WpfUtils.Comparison;
+using ZumtenSoft.Linq2ObsCollection.Comparison;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Allows to group items by key in the same way Enumerable.GroupBy works, but with the

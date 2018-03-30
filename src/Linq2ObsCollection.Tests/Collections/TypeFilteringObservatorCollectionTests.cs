@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ZumtenSoft.WpfUtils.Collections;
-using ZumtenSoft.WpfUtils.Tests.Stubs;
+using ZumtenSoft.Linq2ObsCollection.Collections;
+using ZumtenSoft.Linq2ObsCollection.Tests.Stubs;
 
-namespace ZumtenSoft.WpfUtils.Tests.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
 {
     [TestClass]
     public class TypeFilteringObservatorCollectionTests

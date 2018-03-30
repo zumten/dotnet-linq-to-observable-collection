@@ -4,10 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using ZumtenSoft.WpfUtils.Collections;
-using ZumtenSoft.WpfUtils.Samples.FolderSize.Threading;
+using ZumtenSoft.Linq2ObsCollection.Collections;
+using ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Threading;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 {
     public class Folder : INotifyPropertyChanged
     {

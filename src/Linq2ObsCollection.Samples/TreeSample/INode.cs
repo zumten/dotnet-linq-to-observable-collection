@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.ComponentModel;
-using ZumtenSoft.WpfUtils.Collections;
+using ZumtenSoft.Linq2ObsCollection.Collections;
 
-namespace ZumtenSoft.WpfUtils.Samples.TreeSample
+namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
 {
     public interface INode : IDisposable
     {

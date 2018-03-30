@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Icons
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Icons
 {
     public static class IconsCollection
     {

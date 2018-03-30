@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace ZumtenSoft.WpfUtils.Comparison
+namespace ZumtenSoft.Linq2ObsCollection.Comparison
 {
     /// <summary>
     /// Joins multiple IComparer together executing each of the Compare as a fallback

@@ -1,0 +1,17 @@
+﻿<Window x:Class="ZumtenSoft.Linq2ObsCollection.Samples.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:treeSample="clr-namespace:ZumtenSoft.Linq2ObsCollection.Samples.TreeSample"
+        xmlns:folderSize="clr-namespace:ZumtenSoft.Linq2ObsCollection.Samples.FolderSize"
+        Title="MainWindow" Height="500" Width="800">
+    <TabControl>
+        <TabControl.Items>
+            <TabItem Header="Persons by score">
+                <treeSample:TreeSampleControl />
+            </TabItem>
+            <TabItem Header="Folder size">
+                <folderSize:FolderSizeControl />
+            </TabItem>
+        </TabControl.Items>
+    </TabControl>
+</Window>

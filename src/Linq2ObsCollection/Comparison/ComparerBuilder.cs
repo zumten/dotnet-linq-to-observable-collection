@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ZumtenSoft.WpfUtils.Comparison
+namespace ZumtenSoft.Linq2ObsCollection.Comparison
 {
     /// <summary>
     /// Builds a comparer using the same syntax as linq Enumerable.OrderBy;

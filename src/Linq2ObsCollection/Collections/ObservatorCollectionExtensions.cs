@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using ZumtenSoft.WpfUtils.Comparison;
-using ZumtenSoft.WpfUtils.Threading;
+using ZumtenSoft.Linq2ObsCollection.Comparison;
+using ZumtenSoft.Linq2ObsCollection.Threading;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     public static class ObservatorCollectionExtensions
     {

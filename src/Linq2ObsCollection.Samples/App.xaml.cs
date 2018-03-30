@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ZumtenSoft.WpfUtils.Samples
+namespace ZumtenSoft.Linq2ObsCollection.Samples
 {
     /// <summary>
     /// Interaction logic for App.xaml

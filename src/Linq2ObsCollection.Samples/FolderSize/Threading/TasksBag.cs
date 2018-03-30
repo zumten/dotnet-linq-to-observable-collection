@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Threading
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Threading
 {
     public class TasksBag
     {

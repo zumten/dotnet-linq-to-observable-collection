@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
-using ZumtenSoft.WpfUtils.Threading;
+using ZumtenSoft.Linq2ObsCollection.Threading;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Observable list ensuring any notification is fired on the dispatcher thread.

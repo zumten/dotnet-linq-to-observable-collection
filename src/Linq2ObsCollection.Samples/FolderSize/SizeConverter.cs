@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
 {
     [ValueConversion(typeof(String), typeof(String))]
     public class SizeConverter : IValueConverter

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize.Models
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 {
     public class SortingOption<T>
     {

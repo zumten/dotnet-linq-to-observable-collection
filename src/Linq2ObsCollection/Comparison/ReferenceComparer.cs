@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace ZumtenSoft.WpfUtils.Comparison
+namespace ZumtenSoft.Linq2ObsCollection.Comparison
 {
     /// <summary>
     /// Compares objects by their reference, allowing to add any type of object to a Dictionary.

@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using ZumtenSoft.WpfUtils.Comparison;
+using ZumtenSoft.Linq2ObsCollection.Comparison;
 
-namespace ZumtenSoft.WpfUtils.Collections
+namespace ZumtenSoft.Linq2ObsCollection.Collections
 {
     /// <summary>
     /// Filter source collection items by type in the same way Enumerable.OfType works,

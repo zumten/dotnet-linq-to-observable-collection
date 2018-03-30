@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ZumtenSoft.WpfUtils.Collections;
+using ZumtenSoft.Linq2ObsCollection.Collections;
 
-namespace ZumtenSoft.WpfUtils.Tests.Stubs
+namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
 {
     public class CollectionListener : List<NotifyCollectionChangedEventArgs>
     {

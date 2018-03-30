@@ -3,12 +3,12 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
-using ZumtenSoft.WpfUtils.Collections;
-using ZumtenSoft.WpfUtils.Comparison;
-using ZumtenSoft.WpfUtils.Samples.FolderSize.Models;
+using ZumtenSoft.Linq2ObsCollection.Collections;
+using ZumtenSoft.Linq2ObsCollection.Comparison;
+using ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models;
 using UserControl = System.Windows.Controls.UserControl;
 
-namespace ZumtenSoft.WpfUtils.Samples.FolderSize
+namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
 {
     /// <summary>
     /// Interaction logic for FolderSizeControl.xaml
