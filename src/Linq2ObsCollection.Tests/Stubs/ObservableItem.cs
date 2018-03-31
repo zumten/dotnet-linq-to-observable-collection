@@ -32,24 +32,9 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
             return "{" + Value + "}";
         }
 
-        //public static implicit operator int(ObservableItem m)
-        //{
-        //    return m.Value;
-        //}
-
         public static implicit operator ObservableItem(int m)
         {
             return new ObservableItem(m);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is ObservableItem obsItem && _value.Equals(obsItem._value);
-        }
-
-        public override int GetHashCode()
-        {
-            return _value;
         }
     }
 }

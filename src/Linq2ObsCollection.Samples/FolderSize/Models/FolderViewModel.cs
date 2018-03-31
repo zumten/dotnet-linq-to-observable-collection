@@ -8,8 +8,8 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
     public class FolderViewModel : INotifyPropertyChanged
     {
         private readonly ProcessingContext _context;
-        public Folder Source { get; private set; }
-        public FolderViewModel Parent { get; private set; }
+        public Folder Source { get; }
+        public FolderViewModel Parent { get; }
 
         public FolderViewModel(FolderViewModel parent, Folder source, ProcessingContext context)
         {
@@ -19,15 +19,9 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
             Source.PropertyChanged += Source_PropertyChanged;
         }
 
-        public string Name
-        {
-            get { return Source.Name; }
-        }
+        public string Name => Source.Name;
 
-        public long Length
-        {
-            get { return Source.Length; }
-        }
+        public long Length => Source.Length;
 
         private bool _isExpanded;
         public bool IsExpanded

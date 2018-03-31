@@ -51,27 +51,28 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
                 _students.Add(new Student(name, rnd.Next(45, 100)));
         }
 
+
         private void btnUpdate_OnClick(object sender, RoutedEventArgs e)
         {
             StudentViewModel student = (StudentViewModel)ListStudents.SelectedItem;
-            student.Model.Name = txtName.Text;
-            student.Model.Score = Int32.Parse(txtScore.Text);
+            student.Model.Name = TxtName.Text;
+            student.Model.Score = Int32.Parse(TxtScore.Text);
         }
 
         private void btnCreate_OnClick(object sender, RoutedEventArgs e)
         {
-            Student student = new Student(txtName.Text, Int32.Parse(txtScore.Text));
+            Student student = new Student(TxtName.Text, Int32.Parse(TxtScore.Text));
             _students.Add(student);
         }
 
         private void LstStudents_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             StudentViewModel student = e.NewValue as StudentViewModel;
-            btnUpdate.IsEnabled = student != null;
+            BtnUpdate.IsEnabled = student != null;
             if (student != null)
             {
-                txtName.Text = student.Model.Name;
-                txtScore.Text = student.Model.Score.ToString(CultureInfo.InvariantCulture);
+                TxtName.Text = student.Model.Name;
+                TxtScore.Text = student.Model.Score.ToString(CultureInfo.InvariantCulture);
             }
         }
     }

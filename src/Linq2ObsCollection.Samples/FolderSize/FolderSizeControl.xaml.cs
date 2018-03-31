@@ -21,7 +21,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
         public FolderSizeControl()
         {
             InitializeComponent();
-            treeFolders.SelectedItemChanged += TreeFoldersOnSelectedItemChanged;
+            TreeFolders.SelectedItemChanged += TreeFoldersOnSelectedItemChanged;
 
             List<SortingOption<FolderViewModel>> foldersSortingOptions = new List<SortingOption<FolderViewModel>>();
             foldersSortingOptions.Add(new SortingOption<FolderViewModel>("Size", ComparerBuilder<FolderViewModel>.OrderByDescending(x => x.Length).Comparer));
@@ -35,12 +35,12 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
             Context.SizeProcessingQueue.Completed += SizeProcessingQueue_Completed;
             _filesSource = new SortingObservatorCollection<FileViewModel>(null, filesSortingOptions[0].Comparer);
 
-            lstSortingFolders.ItemsSource = foldersSortingOptions;
-            lstSortingFolders.SelectedIndex = 0;
-            lstSortingFiles.ItemsSource = filesSortingOptions;
-            lstSortingFiles.SelectedIndex = 0;
+            LstSortingFolders.ItemsSource = foldersSortingOptions;
+            LstSortingFolders.SelectedIndex = 0;
+            LstSortingFiles.ItemsSource = filesSortingOptions;
+            LstSortingFiles.SelectedIndex = 0;
 
-            detailsView.ItemsSource = _filesSource;
+            DetailsView.ItemsSource = _filesSource;
         }
 
         private void TreeFoldersOnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -52,11 +52,11 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
         private void Button_Browse(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-            folderDialog.SelectedPath = txtFolderPath.Text;
+            folderDialog.SelectedPath = TxtFolderPath.Text;
 
             DialogResult result = folderDialog.ShowDialog();
             if (result.ToString() == "OK")
-                txtFolderPath.Text = folderDialog.SelectedPath;
+                TxtFolderPath.Text = folderDialog.SelectedPath;
         }
 
         private void btnStart_Click(object sender, RoutedEventArgs e)
@@ -64,12 +64,12 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
             if (!Context.IsRunning)
             {
                 Context.IsRunning = true;
-                btnStart.Content = "Stop";
+                BtnStart.Content = "Stop";
 
-                DirectoryInfo root = new DirectoryInfo(txtFolderPath.Text);
+                DirectoryInfo root = new DirectoryInfo(TxtFolderPath.Text);
                 Folder rootFolder = new Folder(null, root, Context.SizeProcessingQueue);
                 Root = new FolderViewModel(null, rootFolder, Context);
-                treeFolders.ItemsSource = Root.SubFolders;
+                TreeFolders.ItemsSource = Root.SubFolders;
             }
             else
             {
@@ -82,20 +82,20 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
             Context.UpdateSizeDispatcher.Push(() =>
             {
                 Context.IsRunning = false;
-                btnStart.Content = "Start";
+                BtnStart.Content = "Start";
             });
         }
 
         private void lstSortingFolders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Context.FolderComparer = ((SortingOption<FolderViewModel>)lstSortingFolders.SelectedItem).Comparer;
+            Context.FolderComparer = ((SortingOption<FolderViewModel>)LstSortingFolders.SelectedItem).Comparer;
             if (Root != null)
                 Root.UpdateSorting();
         }
 
         private void lstSortingFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _filesSource.Comparer = ((SortingOption<FileViewModel>) lstSortingFiles.SelectedItem).Comparer;
+            _filesSource.Comparer = ((SortingOption<FileViewModel>) LstSortingFiles.SelectedItem).Comparer;
         }
     }
 }

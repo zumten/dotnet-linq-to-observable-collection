@@ -18,19 +18,19 @@
         </Grid.ColumnDefinitions>
         <TreeView Name="ListStudents" Grid.ColumnSpan="4" SelectedItemChanged="LstStudents_OnSelectedItemChanged">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}" DataType="treeSample:StudentGroupingNode">
                     <TextBlock Text="{Binding Path=Name}" />
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
         </TreeView>
 
-        <TextBlock Text="Name:" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
-        <TextBox Name="txtName" Grid.Row="1" Grid.Column="1" Margin="2" />
+        <TextBlock Text="Name:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+        <TextBox Name="TxtName" Grid.Row="1" Grid.Column="1" Margin="2" />
 
-        <TextBlock Text="Score:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
-        <TextBox Name="txtScore" Text="100" treeSample:TextBoxHelpers.IsNumeric="True" Grid.Row="2" Grid.Column="1" Margin="2" />
+        <TextBlock Text="Score:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+        <TextBox Name="TxtScore" Text="100" treeSample:TextBoxHelpers.IsNumeric="True" Grid.Row="2" Grid.Column="1" Margin="2" />
 
-        <Button Name="btnUpdate" Content="Update" Grid.Row="1" Grid.Column="2" Margin="2" Click="btnUpdate_OnClick" />
-        <Button Name="btnCreate" Content="Create" Grid.Row="2" Grid.Column="2" Margin="2" Click="btnCreate_OnClick" />
+        <Button Name="BtnUpdate" Content="Update" Grid.Row="1" Grid.Column="2" Margin="2" Click="btnUpdate_OnClick" />
+        <Button Name="BtnCreate" Content="Create" Grid.Row="2" Grid.Column="2" Margin="2" Click="btnCreate_OnClick" />
     </Grid>
 </UserControl>
