@@ -4,6 +4,16 @@
     <TargetFrameworks>net45;net46</TargetFrameworks>
     <AssemblyName>ZumtenSoft.Linq2ObsCollection</AssemblyName>
     <RootNamespace>ZumtenSoft.Linq2ObsCollection</RootNamespace>
+    <Description>WPF library to manipulate ObservableCollection fully synced collections through LINQ syntax</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ZumtenSoft.Linq2ObsCollection</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>WPF Synchronized ObservableCollection LINQ</PackageTags>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/zumten/linq2obscollection/master/LICENSE.md</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/zumten/linq2obscollection</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

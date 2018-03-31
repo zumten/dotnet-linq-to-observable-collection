@@ -2,6 +2,7 @@
 
 Linq to ObservableCollection provides to WPF developers an additional tool when dealing with collections and observable items.
 
+[![Build Status](https://zumten.visualstudio.com/_apis/public/build/definitions/d6fe51c2-2715-43c8-8bff-5cb5575470b4/3/badge)](https://zumten.visualstudio.com/ZumtenSoft/_build/index?definitionId=3)
 
 ## Introduction
 
