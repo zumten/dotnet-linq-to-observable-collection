@@ -5,6 +5,7 @@
     <AssemblyName>ZumtenSoft.Linq2ObsCollection</AssemblyName>
     <RootNamespace>ZumtenSoft.Linq2ObsCollection</RootNamespace>
     <Description>WPF library to manipulate ObservableCollection fully synced collections through LINQ syntax</Description>
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <PropertyGroup>
