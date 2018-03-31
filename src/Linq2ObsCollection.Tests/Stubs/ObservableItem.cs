@@ -36,5 +36,15 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
         {
             return new ObservableItem(m);
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ObservableItem obsItem && _value.Equals(obsItem._value);
+        }
+
+        public override int GetHashCode()
+        {
+            return _value;
+        }
     }
 }
