@@ -180,7 +180,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
 
                 ResetMetadatas();
 
-                foreach (INotifyPropertyChanged item in _source.OfType<INotifyPropertyChanged>())
+                foreach (INotifyPropertyChanged item in _source.AsEnumerable().OfType<INotifyPropertyChanged>())
                     item.PropertyChanged += ItemPropertyChanged;
 
                 _source.CollectionChanged += SourceOnCollectionChanged;
