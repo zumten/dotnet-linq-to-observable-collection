@@ -66,11 +66,11 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <summary>
         /// Initializes the collection if it not already initialized (in a lazy-loading fashion)
         /// </summary>
-        internal void TryInitialize()
+        private void TryInitialize()
         {
             if (_items == null)
             {
-                IEqualityComparer<T> comparer = typeof(T).IsValueType ? (IEqualityComparer<T>)EqualityComparer<T>.Default : ReferenceComparer<T>.EqualityComparer;
+                IEqualityComparer<T> comparer = typeof(T).IsValueType ? EqualityComparer<T>.Default : ReferenceComparer<T>.EqualityComparer;
                 _orderByItem = new Dictionary<T, uint>(_source.Count * 2, comparer);
                 _source.CollectionChanged += SourceOnCollectionChanged;
 

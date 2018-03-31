@@ -11,7 +11,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
         {
             FolderComparer = folderComparer;
             UpdateSizeDispatcher = new DispatcherQueue(dispatcher, DispatcherPriority.Background);
-            UpdateIconDispatcher = new DispatcherQueue(dispatcher, DispatcherPriority.Normal);
+            UpdateIconDispatcher = new DispatcherQueue(dispatcher);
             SizeProcessingQueue = new TasksBag(processingNbThreads);
             IconProcessingQueue = new TasksQueue(1);
         }

@@ -32,8 +32,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Threading
             int nbThreadsLeft = _nbThreads;
             while (nbThreadsLeft > 0)
             {
-                Action action;
-                while (_queue.TryTake(out action)) { }
+                while (_queue.TryTake(out _)) { }
 
                 while (_semaphore.WaitOne(0))
                     nbThreadsLeft--;

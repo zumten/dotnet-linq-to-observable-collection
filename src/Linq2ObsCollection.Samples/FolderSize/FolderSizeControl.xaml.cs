@@ -6,14 +6,13 @@ using System.Windows.Forms;
 using ZumtenSoft.Linq2ObsCollection.Collections;
 using ZumtenSoft.Linq2ObsCollection.Comparison;
 using ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models;
-using UserControl = System.Windows.Controls.UserControl;
 
 namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize
 {
     /// <summary>
     /// Interaction logic for FolderSizeControl.xaml
     /// </summary>
-    public partial class FolderSizeControl : UserControl
+    public partial class FolderSizeControl
     {
         public FolderViewModel Root { get; private set; }
         public ProcessingContext Context { get; private set; }

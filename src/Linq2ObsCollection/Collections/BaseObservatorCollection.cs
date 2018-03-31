@@ -142,11 +142,10 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <summary>
         /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.PropertyChanged"/> event with the provided arguments.
         /// </summary>
-        /// <param name="e">Arguments of the event being raised.</param>
+        /// <param name="propertyName">Name of the property that changed.</param>
         internal void OnPropertyChanged(string propertyName)
         {
-            if (_propertyChanged != null)
-                _propertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            InnerPropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -155,26 +154,25 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <param name="e">Arguments of the event being raised.</param>
         internal void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (_collectionChanged != null)
-                _collectionChanged(this, e);
+            InnerCollectionChanged?.Invoke(this, e);
         }
 
         #region Events
 
-        private event PropertyChangedEventHandler _propertyChanged;
-        private event NotifyCollectionChangedEventHandler _collectionChanged;
+        private event PropertyChangedEventHandler InnerPropertyChanged;
+        private event NotifyCollectionChangedEventHandler InnerCollectionChanged;
 
         public event PropertyChangedEventHandler PropertyChanged
         {
             add
             {
-                _propertyChanged += value;
-                OnObservatorsChanged(_collectionChanged != null && _collectionChanged.GetInvocationList().Length > 0, _propertyChanged != null && _propertyChanged.GetInvocationList().Length > 0);
+                InnerPropertyChanged += value;
+                OnObservatorsChanged(InnerCollectionChanged != null && InnerCollectionChanged.GetInvocationList().Length > 0, InnerPropertyChanged != null && InnerPropertyChanged.GetInvocationList().Length > 0);
             }
             remove
             {
-                _propertyChanged -= value;
-                OnObservatorsChanged(_collectionChanged != null && _collectionChanged.GetInvocationList().Length > 0, _propertyChanged != null && _propertyChanged.GetInvocationList().Length > 0);
+                InnerPropertyChanged -= value;
+                OnObservatorsChanged(InnerCollectionChanged != null && InnerCollectionChanged.GetInvocationList().Length > 0, InnerPropertyChanged != null && InnerPropertyChanged.GetInvocationList().Length > 0);
             }
         }
 
@@ -182,13 +180,13 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         {
             add
             {
-                _collectionChanged += value;
-                OnObservatorsChanged(_collectionChanged != null && _collectionChanged.GetInvocationList().Length > 0, _propertyChanged != null && _propertyChanged.GetInvocationList().Length > 0);
+                InnerCollectionChanged += value;
+                OnObservatorsChanged(InnerCollectionChanged != null && InnerCollectionChanged.GetInvocationList().Length > 0, InnerPropertyChanged != null && InnerPropertyChanged.GetInvocationList().Length > 0);
             }
             remove
             {
-                _collectionChanged -= value;
-                OnObservatorsChanged(_collectionChanged != null && _collectionChanged.GetInvocationList().Length > 0, _propertyChanged != null && _propertyChanged.GetInvocationList().Length > 0);
+                InnerCollectionChanged -= value;
+                OnObservatorsChanged(InnerCollectionChanged != null && InnerCollectionChanged.GetInvocationList().Length > 0, InnerPropertyChanged != null && InnerPropertyChanged.GetInvocationList().Length > 0);
             }
         }
 

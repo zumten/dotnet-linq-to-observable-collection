@@ -34,17 +34,21 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.FolderSize.Models
 
                     _context.IconProcessingQueue.Push(() =>
                     {
-                        using (Icon icon = Icon.FromHandle(Icon.ExtractAssociatedIcon(Source.FullName).ToBitmap().GetHicon()))
+                        Icon baseIcon = Icon.ExtractAssociatedIcon(Source.FullName);
+                        if (baseIcon != null)
                         {
-                            var newImage =Imaging.CreateBitmapSourceFromHIcon(
-                                                    icon.Handle,
-                                                    new Int32Rect(0, 0, icon.Width, icon.Height),
-                                                    BitmapSizeOptions.FromEmptyOptions());
-                            newImage.Freeze();
-                            _image = newImage;
-                        }
+                            using (Icon icon = Icon.FromHandle(baseIcon.ToBitmap().GetHicon()))
+                            {
+                                var newImage = Imaging.CreateBitmapSourceFromHIcon(
+                                    icon.Handle,
+                                    new Int32Rect(0, 0, icon.Width, icon.Height),
+                                    BitmapSizeOptions.FromEmptyOptions());
+                                newImage.Freeze();
+                                _image = newImage;
+                            }
 
-                        _context.UpdateSizeDispatcher.Push(() => Notify("Image"));
+                            _context.UpdateSizeDispatcher.Push(() => Notify("Image"));
+                        }
                     });
                 }
                 return _image;

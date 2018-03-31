@@ -110,10 +110,10 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         private IEqualityComparer<TKey> _keyComparer;
         public IEqualityComparer<TKey> KeyComparer
         {
-            get { return _keyComparer; }
+            get => _keyComparer;
             set
             {
-                if (_keyComparer != value)
+                if (!Equals(_keyComparer, value))
                 {
                     _keyComparer = value;
                     _items = ((ICollection<T>)_source).GroupBy(_keySelector, _keyComparer).Select(x => new GroupCollection(x)).ToList();

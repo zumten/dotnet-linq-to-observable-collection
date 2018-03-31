@@ -15,7 +15,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
             Dispatcher expected = Dispatcher.CurrentDispatcher;
             Dispatcher actual = null;
 
-            DispatcherQueue dispatchQueue = new DispatcherQueue(expected, DispatcherPriority.Normal);
+            DispatcherQueue dispatchQueue = new DispatcherQueue(expected);
             DispatcherFrame frame = new DispatcherFrame();
             ObservableCollection<int> list = new ObservableCollection<int> { 4, 7, 9 };
             DispatchingObservatorCollection<int> dispatchList = new DispatchingObservatorCollection<int>(dispatchQueue, list);

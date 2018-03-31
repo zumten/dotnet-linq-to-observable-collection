@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace ZumtenSoft.Linq2ObsCollection.Samples
+﻿namespace ZumtenSoft.Linq2ObsCollection.Samples
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {

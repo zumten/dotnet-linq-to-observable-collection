@@ -61,6 +61,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
                 do
                 {
                     comparand = changedEventHandler;
+                    // ReSharper disable once DelegateSubtraction
                     changedEventHandler = Interlocked.CompareExchange(ref _collectionChanged, comparand - value, comparand);
                 }
                 while (changedEventHandler != comparand);
@@ -100,6 +101,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
                 do
                 {
                     comparand = changedEventHandler;
+                    // ReSharper disable once DelegateSubtraction
                     changedEventHandler = Interlocked.CompareExchange(ref _propertyChanged, comparand - value, comparand);
                 }
                 while (changedEventHandler != comparand);
@@ -109,7 +111,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
         /// <summary>
         /// Raises the <see cref="E:System.Collections.ObjectModel.ObservableCollection`1.PropertyChanged"/> event with the provided arguments.
         /// </summary>
-        /// <param name="e">Arguments of the event being raised.</param>
+        /// <param name="propertyName">Name of the property that changed.</param>
         private void OnPropertyChanged(string propertyName)
         {
             if (_propertyChanged != null)

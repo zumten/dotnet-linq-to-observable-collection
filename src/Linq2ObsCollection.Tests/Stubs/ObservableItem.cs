@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
 {
-    [DebuggerDisplay(@"\{ObservableItem Value={Value}\}")]
+    [DebuggerDisplay(@"\{ObservableItem Value={" + nameof(Value) + @"}\}")]
     public class ObservableItem : INotifyPropertyChanged
     {
         public ObservableItem(int value)
@@ -14,14 +14,13 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
         private int _value;
         public int Value
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 if (_value != value)
                 {
                     _value = value;
-                    if (PropertyChanged != null)
-                        PropertyChanged(this, new PropertyChangedEventArgs("Value"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
                 }
             }
         }
@@ -45,15 +44,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Stubs
 
         public override bool Equals(object obj)
         {
-            ObservableItem obsItem = obj as ObservableItem;
-            return obsItem != null && _value.Equals(obsItem._value);
-        }
-
-        public bool Equals(ObservableItem other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return other._value == _value;
+            return obj is ObservableItem obsItem && _value.Equals(obsItem._value);
         }
 
         public override int GetHashCode()

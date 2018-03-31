@@ -66,14 +66,14 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
             ObservableCollection<int> list = new ObservableCollection<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
             RangeObservatorCollection<int> actual = new RangeObservatorCollection<int>(list, 2, 4);
             CollectionListener events = CollectionListener.Create(actual);
-            list.InsertRange(1, new int[] { 20, 21, 22 });
+            list.InsertRange(1, new[] { 20, 21, 22 });
 
             int[] expected = new[] { 21, 22, 2, 3 };
 
             CollectionAssert.AreEqual(expected, actual);
             events.Expect(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new int[] { 4, 5, 6 }, 1),
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new int[] { 21, 22, 2 }, 0));
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new[] { 4, 5, 6 }, 1),
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new[] { 21, 22, 2 }, 0));
         }
 
         [TestMethod]
@@ -82,14 +82,14 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
             ObservableCollection<int> list = new ObservableCollection<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
             RangeObservatorCollection<int> actual = new RangeObservatorCollection<int>(list, 2, 4);
             CollectionListener events = CollectionListener.Create(actual);
-            list.InsertRange(4, new int[] {20, 21, 22, 23, 24, 25});
+            list.InsertRange(4, new[] {20, 21, 22, 23, 24, 25});
 
             int[] expected = new[] { 3, 4, 20, 21 };
 
             CollectionAssert.AreEqual(expected, actual);
             events.Expect(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new int[] { 5, 6 }, 2),
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new int[] { 20, 21 }, 2));
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, new[] { 5, 6 }, 2),
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, new[] { 20, 21 }, 2));
         }
 
         [TestMethod]

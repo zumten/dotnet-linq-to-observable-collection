@@ -95,9 +95,9 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
             CollectionListener events = CollectionListener.Create(actual);
             list.Move(2, 4);
 
-            int[] expected = new[] { 1, 6, 7, 10, 11 };
+            int[] expected = { 1, 6, 7, 10, 11 };
 
-            CollectionAssert.AreEqual(new[] { 1, 6, 7, 10, 11 }, actual);
+            CollectionAssert.AreEqual(expected, actual);
             events.Expect();
         }
 

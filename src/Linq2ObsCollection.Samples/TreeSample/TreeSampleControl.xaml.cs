@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using ZumtenSoft.Linq2ObsCollection.Collections;
 
 namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
@@ -9,9 +8,9 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
     /// <summary>
     /// Interaction logic for TreeSampleControl.xaml
     /// </summary>
-    public partial class TreeSampleControl : UserControl
+    public partial class TreeSampleControl
     {
-        private IObservableCollection<Student> _students;
+        private readonly IObservableCollection<Student> _students;
 
         public TreeSampleControl()
         {
@@ -32,7 +31,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
                 orderby grp.Key
                 select new StudentGroupingNode(grp.Key * 10 + 1, ((grp.Key + 1) * 10), grp);
 
-            lstStudents.ItemsSource = groups;
+            ListStudents.ItemsSource = groups;
 
             string[] names = new string[] {
 	            "Rhiannon Norris", "Marcelino Mciver", "Stacey Parton", "Roseline Rollings", "Sparkle Vieyra",
@@ -54,7 +53,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Samples.TreeSample
 
         private void btnUpdate_OnClick(object sender, RoutedEventArgs e)
         {
-            StudentViewModel student = (StudentViewModel)lstStudents.SelectedItem;
+            StudentViewModel student = (StudentViewModel)ListStudents.SelectedItem;
             student.Model.Name = txtName.Text;
             student.Model.Score = Int32.Parse(txtScore.Text);
         }

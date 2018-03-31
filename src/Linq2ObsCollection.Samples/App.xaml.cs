@@ -1,11 +1,9 @@
-﻿using System.Windows;
-
-namespace ZumtenSoft.Linq2ObsCollection.Samples
+﻿namespace ZumtenSoft.Linq2ObsCollection.Samples
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
     }
 }

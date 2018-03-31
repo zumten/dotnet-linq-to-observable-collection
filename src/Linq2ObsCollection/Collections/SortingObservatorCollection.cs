@@ -46,7 +46,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
             get { return _comparer; }
             set
             {
-                if (_comparer != value)
+                if (!Equals(_comparer, value))
                 {
                     _comparer = value;
                     _comparerWithFallback = new MultiComparer<T>(_comparer, ReferenceComparer<T>.Comparer);

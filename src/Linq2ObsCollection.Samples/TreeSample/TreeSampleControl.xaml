@@ -16,7 +16,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="100" />
         </Grid.ColumnDefinitions>
-        <TreeView Name="lstStudents" Grid.ColumnSpan="4" SelectedItemChanged="LstStudents_OnSelectedItemChanged">
+        <TreeView Name="ListStudents" Grid.ColumnSpan="4" SelectedItemChanged="LstStudents_OnSelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Nodes}">
                     <TextBlock Text="{Binding Path=Name}" />

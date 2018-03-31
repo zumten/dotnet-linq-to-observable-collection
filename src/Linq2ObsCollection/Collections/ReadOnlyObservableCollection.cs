@@ -15,8 +15,7 @@ namespace ZumtenSoft.Linq2ObsCollection.Collections
     /// <typeparam name="T">Type of the collection items</typeparam>
     public class ReadOnlyObservableCollection<T> : IObservableCollection<T>, IList
     {
-        private static readonly ReadOnlyObservableCollection<T> _empty = new ReadOnlyObservableCollection<T>(new T[0]);
-        public static ReadOnlyObservableCollection<T> Empty { get { return _empty; } }
+        public static ReadOnlyObservableCollection<T> Empty { get; } = new ReadOnlyObservableCollection<T>(new T[0]);
 
         private readonly List<T> _items;
 

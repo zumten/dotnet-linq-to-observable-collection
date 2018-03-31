@@ -151,7 +151,8 @@ namespace ZumtenSoft.Linq2ObsCollection.Tests.Collections
             var groupRemoved = actual[0];
             list[0].Value = 13;
 
-            int[][] expected = new[] { new[] { 7, 9 }, new[] { 13, 12 }, new[] { 16, 19 }};
+            int[][] expected = { new[] { 7, 9 }, new[] { 13, 12 }, new[] { 16, 19 }};
+            AssertHelper.AreEqual(expected, actual);
             events.Expect(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, (object)groupRemoved, 0));
         }
     }
